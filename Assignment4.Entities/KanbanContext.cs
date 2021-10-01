@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 namespace Assignment4.Entities
 {
     public class KanbanContext : DbContext
     {
-        public DbSet<Tags> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Task> Task { get; set; }
         public DbSet<User> User { get; set; }
 
