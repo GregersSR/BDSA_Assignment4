@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Assignment4.Entities
 {
     public class Task
@@ -7,7 +9,9 @@ namespace Assignment4.Entities
         public User AssignedTo { get; set;}
         public string Description { get; set;}
         public State State { get; set;}
-        enum State
+        public ICollection<Tag> Tags { get; set;}
+    }
+    public enum State
         {
             New,
             Active,
@@ -15,6 +19,4 @@ namespace Assignment4.Entities
             Closed,
             Removed,
         }
-        public ICollection<Tag> Tags { get; set;}
-    }
 }
