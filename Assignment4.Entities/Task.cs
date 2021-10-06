@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assignment4.Core;
 
 namespace Assignment4.Entities
 {
@@ -11,12 +12,4 @@ namespace Assignment4.Entities
         public State State { get; set;}
         public ICollection<Tag> Tags { get; set;}
     }
-    public enum State
-        {
-            New,
-            Active,
-            Resolved,
-            Closed,
-            Removed,
-        }
 }
