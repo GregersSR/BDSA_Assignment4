@@ -6,7 +6,6 @@ using System.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Assignment4.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Assignment4
 {
@@ -19,6 +18,7 @@ namespace Assignment4
 
             var optionsBuilder = new DbContextOptionsBuilder<KanbanContext>().UseSqlServer(connectionString);
             using var context = new KanbanContext(optionsBuilder.Options);
+            KanbanContextFactory.Seed(context);
         }
 
          static IConfiguration LoadConfiguration()
