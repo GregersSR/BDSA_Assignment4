@@ -1,0 +1,46 @@
+@startuml single-responsibility
+class FileReader{
+    + ReadLine()
+    + Read()
+}
+
+class FileSearcher {
+    + Search()
+}
+
+FileSearcher -- FileReader
+@enduml
+
+@startuml liskov
+interface DataSource {
+    + NextElement()
+}
+class Database {
+    + NextElement()
+}
+note right of Database: The connection is managed transparently by Database\nmeaning it opens the connection on first call to\nNextElement and closes it after a period of inactivity.
+
+DataSource <|.. Database
+@enduml
+
+@startuml interface-segregation
+interface FileWriter {
+    + Write()
+    + WriteLine()
+}
+
+interface FileReader {
+    + Read()
+    + ReadLine()
+}
+
+FileWriter -- ReportWriter
+FileReader -- ReportWriter
+@enduml
+
+@startuml dependency-inversion
+interface Parser
+
+Model -- Parser
+Parser <|-- JSONParser
+@enduml
