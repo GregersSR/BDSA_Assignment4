@@ -18,13 +18,5 @@ namespace Assignment4.Entities
                 .Property(e => e.State)
                 .HasConversion(new EnumToStringConverter<State>());
         }
-
-        public static void seed(KanbanContext context) 
-        {
-            var task1 = new Task{ Id = 1, Title = "Work", Description = "Work Hard"};
-            context.User.AddRange(
-                new User { Id = 1, Name = "Tue", Email = "tugy@itu.dk"}
-            );
-        }
     }
 }

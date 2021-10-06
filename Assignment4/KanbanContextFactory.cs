@@ -28,7 +28,7 @@ namespace Assignment4
 
         public static void Seed(KanbanContext context)
         {
-            var user = new User { Id = 1, Name = "Paolo Tell", Email = "paolo@itu.dk" };
+            var user = new User { Name = "Paolo Tell", Email = "paolo@itu.dk" };
             context.Add(user);
 
             context.SaveChanges();
