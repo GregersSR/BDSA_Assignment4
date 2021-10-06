@@ -1,0 +1,34 @@
+@startuml single-responsibility
+class FileReader{
+    + ReadLine()
+    + Read()
+    + Search()
+}
+@enduml
+
+@startuml liskov
+interface DataSource {
+    + NextElement()
+}
+class Database {
+    + OpenConnection()
+    + NextElement()
+}
+
+DataSource <|.. Database
+@enduml
+
+@startuml interface-segregation
+interface FileIO {
+    + Read()
+    + ReadLine()
+    + Write()
+    + WriteLine()
+}
+
+FileIO -- ReportWriter
+@enduml
+
+@startuml dependency-inversion
+Model -- JSONParser
+@enduml
