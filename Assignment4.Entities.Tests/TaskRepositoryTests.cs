@@ -50,6 +50,28 @@ namespace Assignment4.Entities.Tests
             var response = repo.Delete(1);
             Assert.Equal(Response.NotFound, response);
         }
+        /* Testing For Read()
+        [Fact]
+        public void Read_ReturnsTaskDetailsDTO_GivenValidId()
+        {
+            context.Task.Add(new Task {
+                Id = 1,
+                Title = "",
+                Description = "",
+                AssignedTo = null,
+                State = State.Active,
+                Tags = null,
+            });
+            var task = repo.Read(1);
+            Assert.Equal(1, task.Id);
+            Assert.Equal("", task.Title);
+            Assert.Equal("", task.Description);
+            Assert.Null(task.AssignedToName);
+            Assert.Equal(State.Active.ToString(),task.State.ToString());
+            Assert.Equal(DateTime.UtcNow, task.Created, precision: TimeSpan.FromSeconds(5));
+            Assert.Equal(DateTime.UtcNow);
+        }
+        */
 
         public void Dispose()
         {
