@@ -7,7 +7,7 @@ namespace Assignment4.Entities
 {
     public class TaskRepository : Assignment4.Core.ITaskRepository
     {
-        KanbanContext context;
+        private readonly KanbanContext context;
 
         public TaskRepository(KanbanContext context) {
             this.context = context;
@@ -16,11 +16,17 @@ namespace Assignment4.Entities
         public IReadOnlyCollection<TaskDTO> All() {
             var query = from c in context.Task select c;
             return (ReadOnlyCollection<TaskDTO>) query.AsEnumerable();
+            
         }
         public int Create(TaskDTO task) 
         {
-            context.Add(task);
-            return task.Id;
+            context.Task.Add(new Task{
+                Id = task.Id,
+                Title = task.Title,
+                AssignedTo = context.User.FirstOrDefault(user => user.Id == task.AssignedToId),
+                Description = task.Description,
+                });
+            return context.SaveChanges();
         }
 
         public void Delete(int taskId) 
