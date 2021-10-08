@@ -7,22 +7,33 @@ namespace Assignment4.Entities
 {
     public class TaskRepository : Assignment4.Core.ITaskRepository
     {
-        private readonly KanbanContext context;
+        private readonly KanbanContext _context;
 
         public TaskRepository(KanbanContext context) {
-            this.context = context;
+            this._context = context;
         }
 
         public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
-            throw new System.NotImplementedException();
+            _context.Task.Add(new Task {
+                Title = task.Title,
+                Description = task.Description,
+            });
+            return (Response.Created, _context.SaveChanges());
         }
 
         public Response Delete(int taskId)
         {
-            throw new System.NotImplementedException();
-        }
+            var entity = _context.Task.Find(taskId);
+            if (entity == null) {
+                return Response.NotFound;
+            } else {
+                _context.Task.Remove(entity);
+                _context.SaveChanges();
+                return Response.Deleted;
+            }
 
+        }
         public TaskDetailsDTO Read(int taskId)
         {
             throw new System.NotImplementedException();
