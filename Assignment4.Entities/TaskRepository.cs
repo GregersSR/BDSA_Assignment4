@@ -12,42 +12,50 @@ namespace Assignment4.Entities
         public TaskRepository(KanbanContext context) {
             this.context = context;
         }
-        
-        public IReadOnlyCollection<TaskDTO> All() {
-            var query = from c in context.Task select c;
-            return (ReadOnlyCollection<TaskDTO>) query.AsEnumerable();
-            
-        }
-        public int Create(TaskDTO task) 
+
+        public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
-            context.Task.Add(new Task{
-                Id = task.Id,
-                Title = task.Title,
-                AssignedTo = context.User.FirstOrDefault(user => user.Id == task.AssignedToId),
-                Description = task.Description,
-                });
-            return context.SaveChanges();
+            throw new System.NotImplementedException();
         }
 
-        public void Delete(int taskId) 
+        public Response Delete(int taskId)
         {
-            var query = from t in context.Task where t.Id == taskId select t;
-            context.Remove(query);
+            throw new System.NotImplementedException();
         }
 
-        public TaskDetailsDTO FindById(int id) 
+        public TaskDetailsDTO Read(int taskId)
         {
-            var query = from t in context.Task where t.Id == id select t;
-            return (TaskDetailsDTO) query;
+            throw new System.NotImplementedException();
         }
 
-        public void Update(TaskDTO task) 
+        public IReadOnlyCollection<TaskDTO> ReadAll()
         {
-            context.Update(task);
+            throw new System.NotImplementedException();
         }
 
-        public void Dispose() {
-            context.Dispose();
+        public IReadOnlyCollection<TaskDTO> ReadAllByState(Core.State state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Response Update(TaskUpdateDTO task)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
