@@ -52,6 +52,31 @@ namespace Assignment4.Entities.Tests
         }
 
         [Fact]
+        public void Update_ReturnsUpdated_GivenValidTaskId()
+        {
+            var task = new TaskUpdateDTO
+            {
+                Id = 1,
+            };
+            var response = repo.Update(task);
+
+            Assert.Equal(Response.Updated, response);
+
+            var task1 = repo.Read(1);
+            Assert.Equal(1, task1.Id);
+        }
+        [Fact]
+        public void Update_ReturnsNotFound_GivenInvalidTaskId()
+        {
+            var task = new TaskUpdateDTO
+            {
+                Id = 1,
+            };
+            var response = repo.Update(task);
+
+            Assert.Equal(Response.NotFound, response);
+        }
+        [Fact]
         public void Read_ReturnsTaskDetailsDTO_GivenValidId()
         {
             var tddto = new TaskDetailsDTO (
@@ -80,5 +105,6 @@ namespace Assignment4.Entities.Tests
             context.Dispose();
             connection.Dispose();
         }
+        
     }
 }
