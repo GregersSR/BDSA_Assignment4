@@ -50,28 +50,30 @@ namespace Assignment4.Entities.Tests
             var response = repo.Delete(1);
             Assert.Equal(Response.NotFound, response);
         }
-        /* Testing For Read()
+
         [Fact]
         public void Read_ReturnsTaskDetailsDTO_GivenValidId()
         {
-            context.Task.Add(new Task {
+            var tddto = new TaskDetailsDTO (
+                1, "", "", DateTime.Today, "", new List<string>(), State.New, DateTime.Today);
+            context.Task.Add(new Task{
                 Id = 1,
                 Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
                 Description = "",
-                AssignedTo = null,
-                State = State.Active,
-                Tags = null,
+                State = State.New
             });
+            context.SaveChanges();
             var task = repo.Read(1);
+
             Assert.Equal(1, task.Id);
             Assert.Equal("", task.Title);
             Assert.Equal("", task.Description);
-            Assert.Null(task.AssignedToName);
-            Assert.Equal(State.Active.ToString(),task.State.ToString());
-            Assert.Equal(DateTime.UtcNow, task.Created, precision: TimeSpan.FromSeconds(5));
-            Assert.Equal(DateTime.UtcNow);
+            Assert.Equal("", task.AssignedToName);
+            Assert.Equal(State.New, task.State);
+            Assert.Equal(DateTime.Today, task.Created, precision: TimeSpan.FromSeconds(5));
+            Assert.Equal(DateTime.Today, task.StateUpdated, precision: TimeSpan.FromSeconds(5));
         }
-        */
 
         public void Dispose()
         {
