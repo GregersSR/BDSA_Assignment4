@@ -66,7 +66,17 @@ namespace Assignment4.Entities
 
         public Response Update(TaskUpdateDTO task)
         {
-            throw new System.NotImplementedException();
+            var entity = _context.Task.Find(task.Id);
+            
+            if (entity == null) {
+                return Response.NotFound;
+            }
+            
+            entity.Id = task.Id;
+            
+            _context.SaveChanges();
+
+            return Response.Updated;
         }
     }
 }
