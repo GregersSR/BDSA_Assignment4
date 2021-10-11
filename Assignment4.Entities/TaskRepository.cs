@@ -83,8 +83,7 @@ namespace Assignment4.Entities
             if (entity == null) {
                 return Response.NotFound;
             }
-            
-            entity.Id = task.Id;
+            entity.State = task.State;
             
             _context.SaveChanges();
 

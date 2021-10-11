@@ -57,13 +57,14 @@ namespace Assignment4.Entities.Tests
             var task = new TaskUpdateDTO
             {
                 Id = 1,
+                State = State.Resolved,
             };
+            context.Task.Add(new Task {
+                Id = 1,
+            });
+            context.SaveChanges();
             var response = repo.Update(task);
-
             Assert.Equal(Response.Updated, response);
-
-            var task1 = repo.Read(1);
-            Assert.Equal(1, task1.Id);
         }
         [Fact]
         public void Update_ReturnsNotFound_GivenInvalidTaskId()
@@ -75,6 +76,22 @@ namespace Assignment4.Entities.Tests
             var response = repo.Update(task);
 
             Assert.Equal(Response.NotFound, response);
+        }
+        [Fact]
+        public void Update_UpdatesTaskState_GivenNewState()
+        {
+            var task = new TaskUpdateDTO
+            {
+                Id = 1,
+                State = State.Resolved,
+            };
+            context.Task.Add(new Task {
+                Id = 1,
+            });
+            context.SaveChanges();
+            repo.Update(task);
+            var task1 = repo.Read(1);
+            Assert.Equal(State.Resolved, task1.State);
         }
         [Fact]
         public void Read_ReturnsTaskDetailsDTO_GivenValidId()
