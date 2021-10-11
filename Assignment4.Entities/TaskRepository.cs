@@ -36,7 +36,19 @@ namespace Assignment4.Entities
         }
         public TaskDetailsDTO Read(int taskId)
         {
-            throw new System.NotImplementedException();
+            var task =  from t in _context.Task
+                        where t.Id == taskId
+                        select new TaskDetailsDTO(
+                            t.Id,
+                            t.Title,
+                            t.Description,
+                            System.DateTime.Today,
+                            t.AssignedTo.Name,
+                            t.Tags.Select(t => t.Name).ToList(),
+                            t.State,
+                            System.DateTime.Today
+                        );
+            return task.FirstOrDefault();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAll()

@@ -76,6 +76,29 @@ namespace Assignment4.Entities.Tests
 
             Assert.Equal(Response.NotFound, response);
         }
+        [Fact]
+        public void Read_ReturnsTaskDetailsDTO_GivenValidId()
+        {
+            var tddto = new TaskDetailsDTO (
+                1, "", "", DateTime.Today, "", new List<string>(), State.New, DateTime.Today);
+            context.Task.Add(new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New
+            });
+            context.SaveChanges();
+            var task = repo.Read(1);
+
+            Assert.Equal(1, task.Id);
+            Assert.Equal("", task.Title);
+            Assert.Equal("", task.Description);
+            Assert.Equal("", task.AssignedToName);
+            Assert.Equal(State.New, task.State);
+            Assert.Equal(DateTime.Today, task.Created, precision: TimeSpan.FromSeconds(5));
+            Assert.Equal(DateTime.Today, task.StateUpdated, precision: TimeSpan.FromSeconds(5));
+        }
 
         public void Dispose()
         {
