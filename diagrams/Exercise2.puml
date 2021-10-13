@@ -1,0 +1,4 @@
+@startuml Exercise2
+User "1" -- "0..*" Task
+Task "0..*" -- "0..*" Tag
+@enduml

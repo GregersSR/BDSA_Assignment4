@@ -1,0 +1,11 @@
+@startuml Exercise3
+[*] --> New : New Task
+New --> Active : Activate Task
+New --> Removed : Remove New Task
+Active --> Resolved : Active Task Resolved
+Active --> Removed : Active Task Removed
+Resolved --> Closed : Resolved Task Closed
+Resolved --> New : Resolved Task Refused
+Closed --> [*] : Done
+Removed --> [*] : Done
+@enduml
