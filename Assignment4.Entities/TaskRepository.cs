@@ -66,17 +66,44 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAllByState(Core.State state)
         {
-            throw new System.NotImplementedException();
+            var alltasks =  from t in _context.Task
+                            where t.State == state
+                            select t;
+            var alltaskslist = alltasks.ToList().AsReadOnly();
+            var alltaskslistDTO = new List<TaskDTO>();
+            foreach (var task in alltaskslist)
+            {
+                alltaskslistDTO.Add(new TaskDTO(task.Id, task.Title, task.AssignedTo.Name, task.Tags.Select(c => c.Name).ToList(), task.State));
+            }
+            return alltaskslistDTO.AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
         {
-            throw new System.NotImplementedException();
+            var alltasks =  from t in _context.Task
+                            where t.Tags.Select(c => c.Name).Contains(tag)
+                            select t;
+            var alltaskslist = alltasks.ToList().AsReadOnly();
+            var alltaskslistDTO = new List<TaskDTO>();
+            foreach (var task in alltaskslist)
+            {
+                alltaskslistDTO.Add(new TaskDTO(task.Id, task.Title, task.AssignedTo.Name, task.Tags.Select(c => c.Name).ToList(), task.State));
+            }
+            return alltaskslistDTO.AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
         {
-            throw new System.NotImplementedException();
+            var alltasks =  from t in _context.Task
+                            where t.AssignedTo.Id == userId 
+                            select t;
+            var alltaskslist = alltasks.ToList().AsReadOnly();
+            var alltaskslistDTO = new List<TaskDTO>();
+            foreach (var task in alltaskslist)
+            {
+                alltaskslistDTO.Add(new TaskDTO(task.Id, task.Title, task.AssignedTo.Name, task.Tags.Select(c => c.Name).ToList(), task.State));
+            }
+            return alltaskslistDTO.AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
