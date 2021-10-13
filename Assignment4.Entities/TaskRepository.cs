@@ -8,20 +8,34 @@ namespace Assignment4.Entities
     public class TaskRepository : Assignment4.Core.ITaskRepository
     {
         private readonly KanbanContext _context;
-
         public TaskRepository(KanbanContext context) {
             this._context = context;
         }
-
         public (Response Response, int TaskId) Create(TaskCreateDTO task)
         {
-            _context.Task.Add(new Task {
+            var tagnamelist = task.Tags.ToList();
+            var taglist = new List<Tag>();
+            foreach (var t in tagnamelist)
+            {
+                taglist.Add(new Tag{Name = t});
+            }
+            var user = _context.User.Find(task.AssignedToId);
+            if (user == null)
+            {
+                return (Response.BadRequest, 0);
+            }
+            var entity = new Task {
                 Title = task.Title,
+                AssignedTo = user,
                 Description = task.Description,
-            });
-            return (Response.Created, _context.SaveChanges());
+                Created = System.DateTime.UtcNow,
+                StateUpdated = System.DateTime.UtcNow,
+                Tags = taglist,
+            }; 
+            _context.Task.Add(entity);
+            _context.SaveChanges();
+            return (Response.Created, entity.Id);
         }
-
         public Response Delete(int taskId)
         {
             var entity = _context.Task.Find(taskId);
@@ -60,7 +74,6 @@ namespace Assignment4.Entities
                         );
             return task.FirstOrDefault();
         }
-
         public IReadOnlyCollection<TaskDTO> ReadAll()
         {
             var alltasks =  from t in _context.Task
@@ -73,7 +86,6 @@ namespace Assignment4.Entities
             }
             return alltaskslistDTO.AsReadOnly();
         }
-
         public IReadOnlyCollection<TaskDTO> ReadAllByState(Core.State state)
         {
             var alltasks =  from t in _context.Task
@@ -87,7 +99,6 @@ namespace Assignment4.Entities
             }
             return alltaskslistDTO.AsReadOnly();
         }
-
         public IReadOnlyCollection<TaskDTO> ReadAllByTag(string tag)
         {
             var alltasks =  from t in _context.Task
@@ -101,7 +112,6 @@ namespace Assignment4.Entities
             }
             return alltaskslistDTO.AsReadOnly();
         }
-
         public IReadOnlyCollection<TaskDTO> ReadAllByUser(int userId)
         {
             var alltasks =  from t in _context.Task
@@ -115,7 +125,6 @@ namespace Assignment4.Entities
             }
             return alltaskslistDTO.AsReadOnly();
         }
-
         public IReadOnlyCollection<TaskDTO> ReadAllRemoved()
         {
             var alltasks =  from t in _context.Task
@@ -129,7 +138,6 @@ namespace Assignment4.Entities
             }
             return alltaskslistDTO.AsReadOnly();
         }
-
         public Response Update(TaskUpdateDTO task)
         {
             var entity = _context.Task.Find(task.Id);
@@ -137,7 +145,19 @@ namespace Assignment4.Entities
             if (entity == null) {
                 return Response.NotFound;
             }
+            
             entity.State = task.State;
+            entity.StateUpdated = System.DateTime.UtcNow;
+            if (task.Tags != null)
+            {
+                var tagnamelist = task.Tags.ToList();   
+                var taglist = new List<Tag>();
+                foreach (var t in tagnamelist)
+                {
+                    taglist.Add(new Tag{Name = t});
+                }
+            entity.Tags = taglist;
+            }
             
             _context.SaveChanges();
 

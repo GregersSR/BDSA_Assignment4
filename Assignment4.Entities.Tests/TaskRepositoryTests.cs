@@ -28,6 +28,7 @@ namespace Assignment4.Entities.Tests
         [Fact]
         public void Create_ReturnsResponseAndId_GivenTask()
         {
+        context.User.Add(new User{Id = 1, Name = "Bob"});
         var (resp, taskId) = repo.Create(new TaskCreateDTO{
             Title = "Title",
             AssignedToId = 1,
@@ -59,6 +60,7 @@ namespace Assignment4.Entities.Tests
             {
                 Id = 1,
                 State = State.Resolved,
+                Tags = new List<string>(){"one"},
             };
             context.Task.Add(new Task {
                 Id = 1,
@@ -73,6 +75,8 @@ namespace Assignment4.Entities.Tests
             var task = new TaskUpdateDTO
             {
                 Id = 1,
+                State = State.Resolved,
+                Tags = new List<string>(){"one"},
             };
             var response = repo.Update(task);
 
@@ -80,6 +84,23 @@ namespace Assignment4.Entities.Tests
         }
         [Fact]
         public void Update_UpdatesTaskState_GivenNewState()
+        {
+            var task = new TaskUpdateDTO
+            {
+                Id = 1,
+                State = State.Resolved,
+                Tags = new List<string>(){"one"},
+            };
+            context.Task.Add(new Task {
+                Id = 1,
+            });
+            context.SaveChanges();
+            repo.Update(task);
+            var task1 = repo.Read(1);
+            Assert.Equal(State.Resolved, task1.State);
+        }
+        [Fact]
+        public void Update_canUpdate_givenNoList()
         {
             var task = new TaskUpdateDTO
             {
