@@ -148,13 +148,17 @@ namespace Assignment4.Entities
             
             entity.State = task.State;
             entity.StateUpdated = System.DateTime.UtcNow;
-            var tagnamelist = task.Tags.ToList();
-            var taglist = new List<Tag>();
-            foreach (var t in tagnamelist)
+            if (task.Tags != null)
             {
-                taglist.Add(new Tag{Name = t});
-            }
+                var tagnamelist = task.Tags.ToList();   
+                var taglist = new List<Tag>();
+                foreach (var t in tagnamelist)
+                {
+                    taglist.Add(new Tag{Name = t});
+                }
             entity.Tags = taglist;
+            }
+            
             _context.SaveChanges();
 
             return Response.Updated;
