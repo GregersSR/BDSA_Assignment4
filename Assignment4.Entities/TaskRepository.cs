@@ -137,8 +137,16 @@ namespace Assignment4.Entities
             if (entity == null) {
                 return Response.NotFound;
             }
-            entity.State = task.State;
             
+            entity.State = task.State;
+            entity.StateUpdated = System.DateTime.UtcNow;
+            var tagnamelist = task.Tags.ToList();
+            var taglist = new List<Tag>();
+            foreach (var t in tagnamelist)
+            {
+                taglist.Add(new Tag{Name = t});
+            }
+            entity.Tags = taglist;
             _context.SaveChanges();
 
             return Response.Updated;
