@@ -28,6 +28,7 @@ namespace Assignment4.Entities.Tests
         [Fact]
         public void Create_ReturnsResponseAndId_GivenTask()
         {
+        context.User.Add(new User{Id = 1, Name = "Bob"});
         var (resp, taskId) = repo.Create(new TaskCreateDTO{
             Title = "Title",
             AssignedToId = 1,
