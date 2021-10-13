@@ -78,6 +78,52 @@ namespace Assignment4.Entities.Tests
             Assert.Equal(Response.Created, createResp);
             Assert.Equal(1, id);
             
+            var resp = repo.Delete(1);
+            Assert.Equal(Response.Deleted, resp);
+        }
+
+        [Fact]
+        public void Delete_ReturnsNotFound_GivenInvalidId()
+        {
+            var resp = repo.Delete(10);
+            Assert.Equal(Response.NotFound, resp);
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsEmptyCollectionForEmptyDB()
+        {
+            var all = repo.ReadAll();
+            Assert.Empty(all);
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsSingetonCollectionForSingleElement()
+        {
+            // Arrange
+            var (createResp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
+            Assert.Equal(Response.Created, createResp);
+            Assert.Equal(1, id);
+
+            var collection = repo.ReadAll();
+            Assert.Collection(collection, singleItem => Assert.Equal(singleItem, new TagDTO(1, "MyTag")));
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsMultipleElements()
+        {
+            // Arrange
+            var (createResp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
+            Assert.Equal(Response.Created, createResp);
+            Assert.Equal(1, id);
+            (createResp, id) = repo.Create(new TagCreateDTO { Name = "MyTag2"} );
+            Assert.Equal(Response.Created, createResp);
+            Assert.Equal(2, id);
+
+            var collection = repo.ReadAll();
+            Assert.Collection(collection,
+                              item => Assert.Equal(item, new TagDTO(1, "MyTag")),
+                              item => Assert.Equal(item, new TagDTO(2, "MyTag2"))
+                              );
         }
         
         public void Dispose()

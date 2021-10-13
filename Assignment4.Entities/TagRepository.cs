@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Assignment4.Core;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Assignment4.Entities
 {
@@ -22,7 +24,14 @@ namespace Assignment4.Entities
 
         public Response Delete(int tagId, bool force = false)
         {
-            throw new System.NotImplementedException();
+            var entity = _context.Tags.Find(tagId);
+            if (entity == null) {
+                return Response.NotFound;
+            } else {
+                _context.Tags.Remove(entity);
+                _context.SaveChanges();
+                return Response.Deleted;
+            }
         }
 
         public TagDTO Read(int tagId)
@@ -33,7 +42,9 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TagDTO> ReadAll()
         {
-            throw new System.NotImplementedException();
+            var query = from tag in _context.Tags
+                        select new TagDTO(tag.Id, tag.Name);
+            return new ReadOnlyCollection<TagDTO>(query.ToList());
         }
 
         public Response Update(TagUpdateDTO tag)
