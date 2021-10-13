@@ -2,7 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Assignment4.Core
 {
-    public record UserDTO(int Id, string Name, string Email);
+    public record UserDTO(int Id, string Name, string Email)
+    {
+    }
 
     public record UserCreateDTO
     {
