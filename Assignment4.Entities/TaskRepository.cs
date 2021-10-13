@@ -25,13 +25,23 @@ namespace Assignment4.Entities
         public Response Delete(int taskId)
         {
             var entity = _context.Task.Find(taskId);
-            if (entity == null) {
+            if (entity == null)
+            {
                 return Response.NotFound;
-            } else {
+            }
+            if (entity.State == State.Resolved || entity.State == State.Closed || entity.State == State.Removed)
+            {
+                return Response.Conflict;
+            } else if (entity.State == State.New) {
                 _context.Task.Remove(entity);
                 _context.SaveChanges();
                 return Response.Deleted;
+            } else if (entity.State == State.Active)
+            {
+                entity.State = State.Removed;
+                return Response.Deleted;
             }
+            return Response.NotFound;
 
         }
         public TaskDetailsDTO Read(int taskId)
