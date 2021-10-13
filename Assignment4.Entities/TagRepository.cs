@@ -16,7 +16,13 @@ namespace Assignment4.Entities
         public (Response Response, int TagId) Create(TagCreateDTO tag)
         {
             var entity = new Tag { Name = tag.Name };
-            
+            var matchingIDs = from item in _context.Tags
+                        where item.Name == tag.Name
+                        select item.Id;
+            var match = matchingIDs.FirstOrDefault();
+            if (match != 0) {
+                return (Response.Conflict, match);
+            }
             _context.Tags.Add(entity);
             _context.SaveChanges();
             return (Response.Created, entity.Id);

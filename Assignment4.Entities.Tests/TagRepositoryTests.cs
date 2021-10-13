@@ -32,6 +32,17 @@ namespace Assignment4.Entities.Tests
         }
 
         [Fact]
+        public void Create_ReturnsConflictAnd1_GivenConflictingTagDTO()
+        {
+            var (resp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
+            Assert.Equal(Response.Created, resp);
+            Assert.Equal(1, id);
+            (resp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
+            Assert.Equal(Response.Conflict, resp);
+            Assert.Equal(1, id);
+        }
+
+        [Fact]
         public void Update_ReturnsUpdated_GivenValidId()
         {
             // Arrange
@@ -90,14 +101,14 @@ namespace Assignment4.Entities.Tests
         }
 
         [Fact]
-        public void ReadAll_ReturnsEmptyCollectionForEmptyDB()
+        public void ReadAll_ReturnsEmptyCollection_GivenEmptyDB()
         {
             var all = repo.ReadAll();
             Assert.Empty(all);
         }
 
         [Fact]
-        public void ReadAll_ReturnsSingetonCollectionForSingleElement()
+        public void ReadAll_ReturnsSingetonCollection_GivenDBWithSingleElement()
         {
             // Arrange
             var (createResp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
@@ -109,7 +120,7 @@ namespace Assignment4.Entities.Tests
         }
 
         [Fact]
-        public void ReadAll_ReturnsMultipleElements()
+        public void ReadAll_ReturnsMultipleElements_GivenDBWithMultipleElements()
         {
             // Arrange
             var (createResp, id) = repo.Create(new TagCreateDTO { Name = "MyTag"} );
