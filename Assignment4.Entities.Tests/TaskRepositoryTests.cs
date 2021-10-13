@@ -6,6 +6,7 @@ using Assignment4;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assignment4.Entities.Tests
 {
@@ -115,6 +116,145 @@ namespace Assignment4.Entities.Tests
             Assert.Equal(State.New, task.State);
             Assert.Equal(DateTime.Today, task.Created, precision: TimeSpan.FromSeconds(5));
             Assert.Equal(DateTime.Today, task.StateUpdated, precision: TimeSpan.FromSeconds(5));
+        }
+        [Fact]
+        public void ReadAll_ReturnsAListWithAllTask()
+        {
+        //Given
+        var tag = new Tag{ Id =1, Name = "name"};
+        var alltaskDTO = new List<TaskDTO>();
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+            context.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New,
+                Tags = new List<Tag>(){tag}
+            });
+        context.SaveChanges();
+        //When
+        var taska = repo.ReadAll().Single();
+        var taske = alltaskDTO.Single();
+        //Then
+        Assert.Equal(taske.Id,taska.Id);
+        Assert.Equal(taske.Title,taska.Title);
+        Assert.Equal(taske.AssignedToName,taska.AssignedToName);
+        Assert.Equal(taske.State,taska.State);
+        Assert.Equal(taske.Tags,taska.Tags);
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsAListWithAllTask_GivenAState()
+        {
+        //Given
+        var tag = new Tag{ Id =1, Name = "name"};
+        var alltaskDTO = new List<TaskDTO>();
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+            context.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New,
+                Tags = new List<Tag>(){tag}
+            });
+        context.SaveChanges();
+        //When
+        var taska = repo.ReadAll().Single();
+        var taske = alltaskDTO.Single();
+        //Then
+        Assert.Equal(taske.Id,taska.Id);
+        Assert.Equal(taske.Title,taska.Title);
+        Assert.Equal(taske.AssignedToName,taska.AssignedToName);
+        Assert.Equal(taske.State,taska.State);
+        Assert.Equal(taske.Tags,taska.Tags);
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsAListWithAllTask_GivenTag()
+        {
+        //Given
+        var tag = new Tag{ Id =1, Name = "name"};
+        var alltaskDTO = new List<TaskDTO>();
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+            context.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New,
+                Tags = new List<Tag>(){tag}
+            });
+        context.SaveChanges();
+        //When
+        var taska = repo.ReadAll().Single();
+        var taske = alltaskDTO.Single();
+        //Then
+        Assert.Equal(taske.Id,taska.Id);
+        Assert.Equal(taske.Title,taska.Title);
+        Assert.Equal(taske.AssignedToName,taska.AssignedToName);
+        Assert.Equal(taske.State,taska.State);
+        Assert.Equal(taske.Tags,taska.Tags);
+        }
+
+        [Fact]
+        public void ReadAll_ReturnsAListWithAllTask_GivenAnUser()
+        {
+        //Given
+        var tag = new Tag{ Id =1, Name = "name"};
+        var alltaskDTO = new List<TaskDTO>();
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+            context.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New,
+                Tags = new List<Tag>(){tag}
+            });
+        context.SaveChanges();
+        //When
+        var taska = repo.ReadAll().Single();
+        var taske = alltaskDTO.Single();
+        //Then
+        Assert.Equal(taske.Id,taska.Id);
+        Assert.Equal(taske.Title,taska.Title);
+        Assert.Equal(taske.AssignedToName,taska.AssignedToName);
+        Assert.Equal(taske.State,taska.State);
+        Assert.Equal(taske.Tags,taska.Tags);
+        }
+
+        [Fact]
+        public void ReadAll_Remove()
+        {
+        //Given
+        var tag = new Tag{ Id =1, Name = "name"};
+        var alltaskDTO = new List<TaskDTO>();
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+            context.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.New,
+                Tags = new List<Tag>(){tag}
+            });
+        context.SaveChanges();
+        //When
+        var taska = repo.ReadAll().Single();
+        var taske = alltaskDTO.Single();
+        //Then
+        Assert.Equal(taske.Id,taska.Id);
+        Assert.Equal(taske.Title,taska.Title);
+        Assert.Equal(taske.AssignedToName,taska.AssignedToName);
+        Assert.Equal(taske.State,taska.State);
+        Assert.Equal(taske.Tags,taska.Tags);
         }
 
         public void Dispose()

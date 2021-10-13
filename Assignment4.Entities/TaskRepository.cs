@@ -53,7 +53,15 @@ namespace Assignment4.Entities
 
         public IReadOnlyCollection<TaskDTO> ReadAll()
         {
-            throw new System.NotImplementedException();
+            var alltasks =  from t in _context.Task
+                            select t;
+            var alltaskslist = alltasks.ToList().AsReadOnly();
+            var alltaskslistDTO = new List<TaskDTO>();
+            foreach (var task in alltaskslist)
+            {
+                alltaskslistDTO.Add(new TaskDTO(task.Id, task.Title, task.AssignedTo.Name, task.Tags.Select(c => c.Name).ToList(), task.State));
+            }
+            return alltaskslistDTO.AsReadOnly();
         }
 
         public IReadOnlyCollection<TaskDTO> ReadAllByState(Core.State state)
