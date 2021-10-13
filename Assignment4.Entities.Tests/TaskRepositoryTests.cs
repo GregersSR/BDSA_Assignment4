@@ -232,22 +232,22 @@ namespace Assignment4.Entities.Tests
         [Fact]
         public void ReadAll_Remove()
         {
-        //Given
+             //Given
         var tag = new Tag{ Id =1, Name = "name"};
         var alltaskDTO = new List<TaskDTO>();
-        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.New));
+        alltaskDTO.Add(new TaskDTO(1,"", "", new List<string>(){tag.Name}, State.Removed));
             context.AddRange(
             new Task{
                 Id = 1,
                 Title = "",
                 AssignedTo = new User{Id = 1, Name = "", Email = ""},
                 Description = "",
-                State = State.New,
+                State = State.Removed,
                 Tags = new List<Tag>(){tag}
             });
         context.SaveChanges();
         //When
-        var taska = repo.ReadAll().Single();
+        var taska = repo.ReadAllRemoved().Single();
         var taske = alltaskDTO.Single();
         //Then
         Assert.Equal(taske.Id,taska.Id);
