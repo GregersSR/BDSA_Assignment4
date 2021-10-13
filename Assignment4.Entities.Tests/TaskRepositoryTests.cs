@@ -257,6 +257,61 @@ namespace Assignment4.Entities.Tests
         Assert.Equal(taske.Tags,taska.Tags);
         }
 
+        [Fact]
+        public void ReadAllByState_returnsTask_GivenState()
+        {
+            var taskDTO = new TaskDTO(1,"", "", new List<string>(), State.Active);
+            context.Task.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.Active,
+                Tags = new List<Tag>()
+            });
+            context.SaveChanges();
+            var activeTask = repo.ReadAllByState(State.Active).Single();
+            Assert.Equal(taskDTO.State, activeTask.State);
+        }
+
+        [Fact]
+        public void ReadAllByTag_returnsTask_GivenTag()
+        {
+            var taskDTO = new TaskDTO(1,"", "", new List<string>(), State.Active);
+            var tag = new Tag{Id = 1, Name = "tag"};
+            context.Task.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "", Email = ""},
+                Description = "",
+                State = State.Active,
+                Tags = new List<Tag>(){tag}
+            });
+            context.SaveChanges();
+            var activeTask = repo.ReadAllByTag("tag").Single();
+            Assert.Equal(taskDTO.Id, activeTask.Id);
+        }
+
+        [Fact]
+        public void ReadAllBy_returnTask_GivenTag()
+        {
+            var taskDTO = new TaskDTO(1,"", "name", new List<string>(), State.Active);
+            context.Task.AddRange(
+            new Task{
+                Id = 1,
+                Title = "",
+                AssignedTo = new User{Id = 1, Name = "name", Email = ""},
+                Description = "",
+                State = State.Active,
+                Tags = new List<Tag>(){}
+            });
+            context.SaveChanges();
+            var activeTask = repo.ReadAllByUser(1).Single();
+            Assert.Equal(taskDTO.AssignedToName, activeTask.AssignedToName);
+        }
+
         public void Dispose()
         {
             context.Dispose();
